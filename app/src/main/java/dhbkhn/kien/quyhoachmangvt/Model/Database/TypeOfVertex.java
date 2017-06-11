@@ -1,4 +1,4 @@
-package dhbkhn.kien.quyhoachmangvt.Model;
+package dhbkhn.kien.quyhoachmangvt.Model.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import dhbkhn.kien.quyhoachmangvt.Model.Object.Vertex;
  */
 
 public class TypeOfVertex {
-    //first time, create clone of list vertex, then after action, remove backbone, connector (verified) of list clone
+    //first time, create clone of list vertex, then after action, remove backbone_orange, connector (verified) of list clone
     public static List<Vertex> findBackbone(List<Vertex> allVertex, float weight) {
         List<Vertex> listBackbone = new ArrayList<>();
         for (int i = 0; i < allVertex.size(); i++) {
@@ -24,7 +24,7 @@ public class TypeOfVertex {
         return listBackbone;
     }
 
-    //after find backbone, then find connector
+    //after find backbone_orange, then find connector
     public static List<Vertex> findConnectorOfBackbone(Vertex backbone, List<Vertex> withoutBackbone, float weight, float radius) {
         List<Vertex> listConnector = new ArrayList<>();
         if (withoutBackbone == null) return null;
@@ -41,10 +41,10 @@ public class TypeOfVertex {
         return listConnector;
     }
 
-    //find center network in list backbone
+    //find center network in list backbone_orange
     public static Vertex findCenterNetwork(List<Vertex> listBackbone) {
         int indexOfCenter = -1;
-        float min = 1000000f;
+        float min = 10000000f;
         for (Vertex v : listBackbone) {
             float sum = 0f;
             int indexOfV = listBackbone.indexOf(v);
@@ -57,10 +57,11 @@ public class TypeOfVertex {
                 indexOfCenter = indexOfV;
             }
         }
+        if(indexOfCenter==-1) return null;
         return listBackbone.get(indexOfCenter);
     }
 
-    //after find backbone, center and connector -> only has that vertex did't verify in clone list
+    //after find backbone_orange, center and connector -> only has that vertex did't verify in clone list
     public static Vertex findBackboneLast(List<Vertex> lastVertex, Vertex center, float weight, float distanceOfNetwork) {
         //syntax
         float min = 100000f;

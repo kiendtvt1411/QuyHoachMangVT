@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pink"
+    android:padding="5dp"
+    >
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:gravity="center_horizontal">
+        <TableRow>
+            <TextView android:text="ID"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="0"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogId"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Tọa độ"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="102,103"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogCoor"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Loại"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="Backbone"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogType"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Trọng số"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="569"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogWeight"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Tham số α"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="0"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogAlpha"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Tham số ώ"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="550"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogOmega"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Tham số γ"
+                style="@style/TextDialog"
+                />
+            <TextView android:text="550"
+                style="@style/TextDialog"
+                android:id="@+id/tvDialogGamma"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Tìm đường đến nút"
+                style="@style/TextDialog"
+                />
+            <EditText
+                android:hint="Nhập id"
+                android:textColorHint="@color/gray"
+                style="@style/TextDialog"
+                android:id="@+id/edtDialogFind"
+                android:inputType="numberDecimal"
+                />
+        </TableRow>
+    </TableLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextDialog"
+        android:text="Xem chi tiết các thông số của nút mạng >>"
+        android:gravity="right"
+        android:textSize="14sp"
+        android:id="@+id/tvDialogDetail"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Tìm đường"
+            style="@style/ButtonDialog"
+            android:id="@+id/btnDialogFind"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Đóng"
+            style="@style/ButtonDialog"
+            android:id="@+id/btnDialogClose"
+            />
+    </LinearLayout>
+</LinearLayout>

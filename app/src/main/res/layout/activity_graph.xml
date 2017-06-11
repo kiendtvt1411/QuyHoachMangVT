@@ -1,42 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_graph"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:background="@drawable/vienthong"
     tools:context="dhbkhn.kien.quyhoachmangvt.View.DoThi.GraphActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
         android:id="@+id/llContainer"
+        android:background="@drawable/border_surface_view"
+        android:padding="5dp"
+        android:visibility="gone"
         ></LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_height="160dp"
+        android:layout_margin="5dp"
+        android:layout_gravity="bottom|start"
+        android:background="@color/transparent"
+        android:orientation="vertical"
         >
-        <Button
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FIND PATH"
-            android:onClick="btnFindPath"
+            android:text="THUẬT TOÁN MENTOR"
+            style="@style/TextDialog"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
             />
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="FIND BACKBONE"
-            android:onClick="btnFindBackbone"
-            />
-        <ImageButton
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:padding="2dp"
+            android:id="@+id/llInfo"
+            android:visibility="gone"
+            >
+            <TableLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                >
+                <TableRow>
+                    <TextView
+                        android:text="Số nút"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        />
+                    <TextView
+                        android:text="50"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:id="@+id/tvInfoNode"
+                        android:textSize="16sp"
+                        />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:text="Tham số α"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        />
+                    <TextView
+                        android:text="0"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:id="@+id/tvInfoAlpha"
+                        android:textSize="16sp"
+                        />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:text="Tham số γ"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        />
+                    <TextView
+                        android:text="550"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:id="@+id/tvInfoGamma"
+                        android:textSize="16sp"
+                        />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:text="Tham số ώ"
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        />
+                    <TextView
+                        style="@style/TextDialog"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:id="@+id/tvCurrentWei"
+                        />
+                </TableRow>
+            </TableLayout>
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:id="@+id/tvMinWeight"
+                    />
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:id="@+id/seekbarWeight"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:id="@+id/tvMaxWeight"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_media_play"
-            android:onClick="btnStepByStep"
-            />
+            android:orientation="vertical"
+            android:id="@+id/llStepByStep"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextDialog"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:id="@+id/tvStep"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextDialog"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:id="@+id/tvDetailStep"
+                />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:id="@+id/fab"
+        android:src="@drawable/user"
+        android:layout_margin="16dp"
+        />
+    <include layout="@layout/fab_layout"/>
+</android.support.design.widget.CoordinatorLayout>

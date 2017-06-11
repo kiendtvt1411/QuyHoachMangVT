@@ -17,7 +17,8 @@ import java.util.List;
 import dhbkhn.kien.quyhoachmangvt.Config.ConfigGraph;
 import dhbkhn.kien.quyhoachmangvt.Model.Database.AsyncGraph;
 import dhbkhn.kien.quyhoachmangvt.Model.MinimumSpanningTree.MinimumSpanningTree;
-import dhbkhn.kien.quyhoachmangvt.Model.SimulatorNetwork;
+import dhbkhn.kien.quyhoachmangvt.Model.ShortestPathTree.ShortestTreePath;
+import dhbkhn.kien.quyhoachmangvt.Model.Simulator.SimulatorNetwork;
 import dhbkhn.kien.quyhoachmangvt.View.DoThi.GraphView;
 
 /**
@@ -33,12 +34,12 @@ public class GraphObject {
     private GraphView graphView;
     private int size;
     private Paint mPaint;
-    private List<Vertex> listVertex;
-    private String[] nameImages = {"node", "backbone", "center"};
+    public static List<Vertex> listVertex;
     private List<Matrix> matrixBitmap; //one bitmap has one matrix bitmap
     private List<Bitmap> listIcon;
     private float currentDx;
     private float currentDy;
+    private float alpha;
     private float rate = 1.0f;
     //smoothly
     private Interpolator interpolator;
@@ -54,11 +55,12 @@ public class GraphObject {
     private static final float widthBitmap = 24.0f;
     private static final float heightBitmap = 24.0f;
 
-    public GraphObject(GraphView graphView, int size) {
+    public GraphObject(GraphView graphView, int size, int omega, float alpha) {
         this.graphView = graphView;
         this.size = size;
+        this.alpha = alpha;
         this.listVertex = new ArrayList<>();
-        this.simulatorNetwork = new SimulatorNetwork(this, graphView);
+        this.simulatorNetwork = new SimulatorNetwork(this, graphView, omega, alpha);
         generateGraph();
         initBitmap(graphView.getContext());
         initPaint();
@@ -68,7 +70,8 @@ public class GraphObject {
         matrixBitmap = new ArrayList<>();
         listIcon = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), ConfigGraph.getDrawableIdResByName(context, nameImages[0]));
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+                    ConfigGraph.getDrawableIdResByName(context, ConfigGraph.AN_BN_BLUE[0]));
             listIcon.add(bitmap);
             Matrix matrix = new Matrix();
             matrixBitmap.add(matrix);
@@ -79,11 +82,11 @@ public class GraphObject {
         drawBitmapToSurfaceView(canvas);
         if (listVertex.size() <= 0) {
             graphView.invalidate();
-        } else if (ConfigGraph.stepMode == 0) {
+        } else if (ConfigGraph.stepMode) {
             simulator(canvas, ConfigGraph.step);
         } else if (ConfigGraph.findPath) {
-            drawMinimumPath(canvas);
-        }
+            drawMinimumPath(canvas, alpha);
+        };
     }
 
     //if touch inside one of vertices, return id of vertex, else, return -1
@@ -102,13 +105,42 @@ public class GraphObject {
         return -1;
     }
 
-    public void changeIconToCenterOrBackbone(Vertex vertex) {
+    public void changeIconToCenterOrBackbone(Vertex vertex, int indexBackBone) {
         //find index of vertex in listVertex original
         int indexOfVertex = listVertex.indexOf(vertex);
 
         if (indexOfVertex >= 0) {
+            int typeVertex = vertex.getType();
+            String nameRes = null;
+            int argu = indexBackBone % 5;
+            switch (argu) {
+                case -1:
+                    nameRes = ConfigGraph.AN_BN_LAST[typeVertex];
+                    break;
+                case 0:
+                    nameRes = ConfigGraph.AN_BN_BLUE[typeVertex];
+                    break;
+                case 1:
+                    nameRes = ConfigGraph.AN_BN_DK_BLUE[typeVertex];
+                    break;
+                case 2:
+                    nameRes = ConfigGraph.AN_BN_GREEN[typeVertex];
+                    break;
+                case 3:
+                    nameRes = ConfigGraph.AN_BN_ORANGE[typeVertex];
+                    break;
+                case 4:
+                    nameRes = ConfigGraph.AN_BN_PINK[typeVertex];
+                    break;
+                case 100:
+                    nameRes = ConfigGraph.AN_BN_RED[typeVertex];
+                    break;
+                default:
+                    nameRes = ConfigGraph.AN_BN_BLUE[typeVertex];
+                    break;
+            }
             Bitmap bitmap = BitmapFactory.decodeResource(graphView.getResources(),
-                    ConfigGraph.getDrawableIdResByName(graphView.getContext(), nameImages[vertex.getType()]));
+                    ConfigGraph.getDrawableIdResByName(graphView.getContext(), nameRes));
             listIcon.remove(indexOfVertex);
             listIcon.add(indexOfVertex, bitmap);
         }
@@ -118,7 +150,7 @@ public class GraphObject {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(10);
-        mPaint.setColor(Color.YELLOW);
+        mPaint.setColor(Color.RED);
     }
 
     public void generateGraph() {
@@ -126,9 +158,9 @@ public class GraphObject {
         task.execute(size);
     }
 
-    //draw area effection of backbone vertex
+    //draw area effection of backbone_orange vertex
     public void drawAreaCircle(Canvas canvas, Vertex backbone, float radius) {
-        mPaint.setColor(Color.parseColor("#ab454545"));
+        mPaint.setColor(Color.parseColor("#abefefef"));
         mPaint.setStrokeWidth(2);
         canvas.drawCircle(backbone.getCoorX(), backbone.getCoorY(), radius, mPaint);
     }
@@ -162,11 +194,11 @@ public class GraphObject {
     public void drawBitmapToSurfaceView(Canvas canvas) {
         for (Vertex vertex : listVertex) {
             int indexOfVertex = listVertex.indexOf(vertex);
-            Matrix matrixBm = matrixBitmap.get(indexOfVertex);
-            Matrix transform = new Matrix(matrixBm);//new matrix
+//            Matrix matrixBm = matrixBitmap.get(indexOfVertex);
+//            Matrix transform = new Matrix(matrixBm);//new matrix
             Bitmap droid = listIcon.get(indexOfVertex);
-            transform.postTranslate(-widthBitmap, -heightBitmap); // Centers image
-            transform.postConcat(matrixBm);
+//            transform.postTranslate(-widthBitmap, -heightBitmap); // Centers image
+//            transform.postConcat(matrixBm);
             float vx, vy;
             if (CHOOSE_MODE == TRANSLATE_GRAPH) {
                 vx = vertex.getCoorX() + currentDx;
@@ -178,22 +210,29 @@ public class GraphObject {
                 vx = vertex.getCoorX();
                 vy = vertex.getCoorY();
             }
-            transform.postTranslate(vx, vy);
+//            transform.postTranslate(vx, vy);
             vertex.setCoorX(vx);
             vertex.setCoorY(vy);
 //            canvas.drawBitmap(droid, transform, null);
-            canvas.drawBitmap(droid,vx,vy,mPaint); //good!!!!!!!!!!!!!!
+            canvas.drawBitmap(droid, vx - widthBitmap / 2, vy - heightBitmap / 2, mPaint); //good!!!!!!!!!!!!!!
         }
     }
 
-    public void drawMinimumPath(Canvas canvas) {
+    public void drawMinimumPath(Canvas canvas, float alpha) {
         if (listVertex.size() <= 0) {
             return;
         }
         mPaint.setStrokeWidth(5 * rate);
         mPaint.setStyle(Paint.Style.STROKE);
-        MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree(listVertex);
-        List<Vertex> result = minimumSpanningTree.primeAlgorithm(listVertex.get(0));
+        List<Vertex> result = new ArrayList<>();
+        if (alpha == 0f) {
+            MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree(listVertex);
+            result = minimumSpanningTree.primeAlgorithm(listVertex.get(0),null);
+        }
+        else{
+            ShortestTreePath shortestTreePath = new ShortestTreePath(listVertex, alpha);
+            result = shortestTreePath.dijkstraAlgorithm(listVertex.get(0), null);
+        }
         Path path = new Path();
         for (Vertex v : result) {
             int index = result.indexOf(v);
@@ -255,28 +294,64 @@ public class GraphObject {
 
     public void simulator(Canvas canvas, int step) {
         if (simulatorNetwork != null) {
+            simulatorNetwork.setOmega(ConfigGraph.mOmega);
             simulatorNetwork.simulateNetwork(canvas, step);
         }
     }
 
-    public void drawMinimumPath(Canvas canvas, List<Vertex> clone) {
+    public void drawMinimumPathBetweenTwoVertex(Canvas canvas, Vertex start, Vertex end, float alpha) {
         mPaint.setColor(Color.RED);
-        mPaint.setStrokeWidth(10 * rate);
+        mPaint.setStrokeWidth(5 * rate);
+        List<Vertex> result = new ArrayList<>();
+        if (alpha == 0f) {
+            MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree(listVertex);
+            result = minimumSpanningTree.primeAlgorithm(start, end);
+        }else{
+            ShortestTreePath shortestTreePath = new ShortestTreePath(listVertex, alpha);
+            result = shortestTreePath.dijkstraAlgorithm(start, end);
+        }
+        if (result == null) return;
+        for (Vertex v : result) {
+            Vertex u = v.getPrevVertex();
+            if (u != null) {
+                float vx = v.getCoorX();
+                float vy = v.getCoorY();
+                float ux = u.getCoorX();
+                float uy = u.getCoorY();
+                canvas.drawLine(ux, uy, vx, vy, mPaint);
+            }
+        }
+    }
+
+    public void drawMinimumPath(Canvas canvas, List<Vertex> clone, float alpha) {
+        mPaint.setColor(Color.RED);
+        mPaint.setStrokeWidth(5 * rate);
         if (clone.size() > 0) {
-            MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree(clone);
-            List<Vertex> result = minimumSpanningTree.primeAlgorithm(clone.get(0));
+            List<Vertex> result = new ArrayList<>();
+            if (alpha == 0) {
+                MinimumSpanningTree minimumSpanningTree = new MinimumSpanningTree(clone);
+                result = minimumSpanningTree.primeAlgorithm(clone.get(0),null);
+                if (ConfigGraph.minLengthPath != minimumSpanningTree.getMinCost()) {
+                    ConfigGraph.minLengthPath = minimumSpanningTree.getMinCost();
+                }
+            }else{
+                ShortestTreePath shortestTreePath = new ShortestTreePath(clone, alpha);
+                result = shortestTreePath.dijkstraAlgorithm(clone.get(0), null);
+                if (ConfigGraph.minLengthPath != shortestTreePath.getLengthDistance()) {
+                    ConfigGraph.minLengthPath = shortestTreePath.getLengthDistance();
+                }
+            }
             if (result == null) return;
             for (Vertex v : result) {
                 Vertex u = v.getPrevVertex();
                 if (u != null) {
-                    float vx = v.getCoorX() * rate + currentDx;
-                    float vy = v.getCoorY() * rate + currentDy;
-                    float ux = u.getCoorX() * rate + currentDx;
-                    float uy = u.getCoorY() * rate + currentDy;
+                    float vx = v.getCoorX();
+                    float vy = v.getCoorY();
+                    float ux = u.getCoorX();
+                    float uy = u.getCoorY();
                     canvas.drawLine(ux, uy, vx, vy, mPaint);
                 }
             }
         }
-        graphView.invalidate();
     }
 }

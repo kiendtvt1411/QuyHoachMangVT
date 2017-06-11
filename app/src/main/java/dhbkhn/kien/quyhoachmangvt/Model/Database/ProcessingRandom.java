@@ -87,7 +87,7 @@ public class ProcessingRandom {
         double y1 = v1.getCoorY();
         double x2 = v2.getCoorX();
         double y2 = v2.getCoorY();
-        cost = (int) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) / 10;
+        cost = (int) ((Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) + 2500) / 5 * (size / 50) / 0.8);
         return cost;
     }
 

@@ -22,7 +22,16 @@ public class MinimumSpanningTree {
         this.cost = new int[sizeVertex];
     }
 
-    public List<Vertex> primeAlgorithm(Vertex start){
+    public int getMinCost() {
+        int len = this.cost.length;
+        int minLengthOfPath = 0;
+        for(int i = 0;i<len;i++) {
+            minLengthOfPath += cost[i];
+        }
+        return minLengthOfPath;
+    }
+
+    public List<Vertex> primeAlgorithm(Vertex start, Vertex end){
         this.listResult.clear();
         //initiate value
         for(Vertex v: this.listVertex){
@@ -38,6 +47,10 @@ public class MinimumSpanningTree {
         int sizeVertex = listVertex.size();
         for(int i = 0;i<sizeVertex;i++){
             Vertex u = findVertexNextContected();
+            if(u == end) {
+                this.listResult.add(u);
+                break;
+            }
             u.setVisited(true);
             for(Vertex v: this.listVertex){
                 int indexOfV = listVertex.indexOf(v);

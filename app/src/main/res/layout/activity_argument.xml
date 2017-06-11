@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_argument"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="dhbkhn.kien.quyhoachmangvt.View.ThongSo.ArgumentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextDialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/pink"
+            android:gravity="center"
+            android:text="THÔNG SỐ CHI TIẾT" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Id nút"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeId"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Tọa độ"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeCoor"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Loại nút"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeType"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Trọng số"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeWeight"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Tham số α"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeAlpha"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Tham số γ"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeGamma"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:text="Tham số ώ"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvNodeOmega"
+                    style="@style/TextDialog"
+                    android:textColor="@color/black" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chi tiết Erlang"
+                    android:textColor="@color/black" />
+
+                <ListView
+                    android:id="@+id/rvErlang"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"></ListView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chi tiết giá"
+                    android:textColor="@color/black" />
+
+                <ListView
+                    android:id="@+id/rvCost"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"></ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

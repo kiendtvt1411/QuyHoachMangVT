@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -51,5 +52,14 @@ public class MainActivity extends AppCompatActivity {
         iGraph.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ConfigGraph.step = 0;
         startActivity(iGraph);
+    }
+
+    public void btnAnotherApp(View v){
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("dhbkhn.kien.demogestures");
+        if (launchIntent != null) {
+            startActivity(launchIntent);//null pointer check in case package name was not found
+        }else{
+            Toast.makeText(this, "You don't have that application!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

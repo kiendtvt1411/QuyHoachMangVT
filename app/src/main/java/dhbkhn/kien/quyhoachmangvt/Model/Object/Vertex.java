@@ -1,5 +1,6 @@
 package dhbkhn.kien.quyhoachmangvt.Model.Object;
 
+import java.io.Serializable;
 import java.util.List;
 
 import dhbkhn.kien.quyhoachmangvt.Config.ConfigGraph;
@@ -8,9 +9,9 @@ import dhbkhn.kien.quyhoachmangvt.Config.ConfigGraph;
  * Created by kiend on 3/16/2017.
  */
 
-public class Vertex {
+public class Vertex implements Serializable{
     int id; //according to id can determine vertex.getCost[idA], that is cost from vertex to the vertexA has idA
-    int type;//connector, backbone, center
+    int type;//connector, backbone_orange, center, = 0 not connected
     private int[] cost;
     private int[] erlangOut;
     private int[] erlangIn;

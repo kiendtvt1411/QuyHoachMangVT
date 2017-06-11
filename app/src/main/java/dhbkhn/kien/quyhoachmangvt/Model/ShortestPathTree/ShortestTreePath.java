@@ -13,37 +13,52 @@ import dhbkhn.kien.quyhoachmangvt.Model.Object.Vertex;
 public class ShortestTreePath {
     private List<Vertex> listVertex;
     private List<Vertex> listResult;
+    private float alpha;
 
-    public ShortestTreePath(List<Vertex> listVertex) {
+    public ShortestTreePath(List<Vertex> listVertex, float alpha) {
         this.listVertex = listVertex;
         this.listResult = new ArrayList<>();
+        this.alpha = alpha;
     }
 
-    public List<Vertex> dijkstraAlgorithm(Vertex start){
+    public int getLengthDistance() {
+        int lengthMin = 0;
+        for (Vertex v : listResult) {
+            int dist = v.getDistance();
+            lengthMin += dist;
+        }
+        return lengthMin;
+    }
+
+    public List<Vertex> dijkstraAlgorithm(Vertex start, Vertex end){
         this.listResult.clear();
         //initiate
         for(Vertex v: listVertex){
-            v.setWeight(100000);
+            v.setDistance(100000);
             v.setVisited(false);
             v.setPrevVertex(null);
         }
-        start.setWeight(0);
+        start.setDistance(0);
         List<Vertex> clone = new ArrayList<>();
         clone.addAll(listVertex);
         while (clone != null) {
             Vertex u = findNextVertex(clone);
             if(u==null) return this.listResult;
+            if(u == end) {
+                this.listResult.add(u);
+                break;
+            }
             u.setVisited(true);
             clone.remove(u);
             this.listResult.add(u);
             for(Vertex v: u.getAdjVertex()){
-                if (!v.isVisited()) {
-                    int indexOfV = listVertex.indexOf(v);
+                int indexOfV = listVertex.indexOf(v);
+                if (!v.isVisited() && indexOfV >= 0) {
                     int costFromUtoV = u.getCost()[indexOfV];
-                    int distanceU = u.getWeight();
-                    int distanceV = v.getWeight();
-                    if(distanceV > distanceU + costFromUtoV){
-                        v.setWeight(distanceU + costFromUtoV);
+                    int distanceU = u.getDistance();
+                    int distanceV = v.getDistance();
+                    if(distanceV > (int) (distanceU + alpha * costFromUtoV)){
+                        v.setDistance((int) (distanceU + alpha * costFromUtoV));
                         v.setPrevVertex(u);
                     }
                 }
@@ -56,8 +71,8 @@ public class ShortestTreePath {
         int minOfIndex = -1;
         int minDist = 100000;
         for(Vertex v: clone){
-            if(v.getWeight() < minDist){
-                minDist = v.getWeight();
+            if(v.getDistance() < minDist){
+                minDist = v.getDistance();
                 minOfIndex = listVertex.indexOf(v);//not in list clone
             }
         }
